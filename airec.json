@@ -1,0 +1,584 @@
+{
+    "name": "AI Receptionist - Enterprise Grade",
+    "nodes": [
+      {
+        "id": "1",
+        "name": "Twilio Trigger (Voice/SMS)",
+        "type": "n8n-nodes-base.twilioTrigger",
+        "position": [250, 300],
+        "parameters": {
+          "event": "all",
+          "path": "/webhook/twilio",
+          "responseMode": "onReceived"
+        },
+        "credentials": {
+          "twilioApi": {
+            "sid": "<<PLACEHOLDER_TWILIO_ACCOUNT_SID>>",
+            "authToken": "<<PLACEHOLDER_TWILIO_AUTH_TOKEN>>"
+          }
+        }
+      },
+  
+      {
+        "id": "2",
+        "name": "Download Recording (if call)",
+        "type": "n8n-nodes-base.httpRequest",
+        "position": [500, 200],
+        "parameters": {
+          "url": "={{ $json[\"RecordingUrl\"] ? $json[\"RecordingUrl\"] + '.wav' : '' }}",
+          "responseFormat": "file",
+          "sendBinaryData": true,
+          "binaryPropertyName": "callAudio"
+        }
+      },
+  
+      {
+        "id": "3",
+        "name": "Deepgram STT",
+        "type": "n8n-nodes-base.httpRequest",
+        "position": [750, 200],
+        "parameters": {
+          "url": "https://api.deepgram.com/v1/listen?punctuate=true&language=en-US",
+          "method": "POST",
+          "options": {},
+          "bodyContentType": "binary",
+          "binaryPropertyName": "callAudio",
+          "headers": {
+            "Authorization": "Token <<PLACEHOLDER_DEEPGRAM_API_KEY>>",
+            "Content-Type": "audio/wav"
+          }
+        }
+      },
+  
+      {
+        "id": "4",
+        "name": "AWS Comprehend Sentiment",
+        "type": "n8n-nodes-base.httpRequest",
+        "position": [1000, 200],
+        "parameters": {
+          "url": "https://comprehend.us-east-1.amazonaws.com/",
+          "method": "POST",
+          "headers": {
+            "Content-Type": "application/x-amz-json-1.1",
+            "X-Amz-Target": "Comprehend_20171127.DetectSentiment"
+          },
+          "body": "={ \"Text\": $json[\"transcript\"] || $json[\"text\"], \"LanguageCode\": \"en\" }",
+          "authentication": "headerAuth"
+        },
+        "credentials": {
+          "httpHeaderAuth": {
+            "name": "awsComprehendAuth",
+            "value": "<<PLACEHOLDER_AWS_SIGNED_HEADERS_OR_USE_AWS_NODE>>"
+          }
+        }
+      },
+  
+      {
+        "id": "5",
+        "name": "OpenAI - Context Extraction (GPT)",
+        "type": "n8n-nodes-base.openAI",
+        "position": [750, 400],
+        "parameters": {
+          "operation": "chat",
+          "model": "gpt-5-mini",
+          "temperature": 0.12,
+          "messages": [
+            {
+              "role": "system",
+              "content": "You are an enterprise AI receptionist. Extract the user's intent, required actions, key entities (names, times, locations), and suggested calendar slots in JSON. Respond only with JSON containing keys: intent, entities, actions[], suggested_slots[]."
+            },
+            {
+              "role": "user",
+              "content": "={{ $json[\"transcript\"] || $json[\"Body\"] || $json[\"Text\"] }}"
+            }
+          ]
+        },
+        "credentials": {
+          "openAIApi": {
+            "apiKey": "<<PLACEHOLDER_OPENAI_API_KEY>>"
+          }
+        }
+      },
+  
+      {
+        "id": "6",
+        "name": "Pinecone - Memory Lookup",
+        "type": "n8n-nodes-base.httpRequest",
+        "position": [1000, 400],
+        "parameters": {
+          "url": "https://<<PLACEHOLDER_PINECONE_INDEX>>.svc.pinecone.io/query",
+          "method": "POST",
+          "headers": {
+            "Api-Key": "<<PLACEHOLDER_PINECONE_API_KEY>>",
+            "Content-Type": "application/json"
+          },
+          "body": "={ \"topK\": 3, \"vector\": $json[\"embedding\"] || null, \"includeMetadata\": true }"
+        }
+      },
+  
+      {
+        "id": "7",
+        "name": "OpenAI - Response Generator (GPT)",
+        "type": "n8n-nodes-base.openAI",
+        "position": [1250, 400],
+        "parameters": {
+          "operation": "chat",
+          "model": "gpt-5",
+          "temperature": 0.05,
+          "messages": [
+            {
+              "role": "system",
+              "content": "You are a professional receptionist voice and chat assistant. Use provided context (memory results, sentiment, extracted intent) to produce an exact reply to the caller and a set of actions to perform (create calendar event, send SMS, escalate). Output JSON with keys: reply_text, actions[] (each action with type and payload)."
+            },
+            {
+              "role": "user",
+              "content": "Context:\nMemory:={{ $node[\"Pinecone - Memory Lookup\"].json }}\nSentiment:={{ $node[\"AWS Comprehend Sentiment\"].json }}\nExtraction:={{ $node[\"OpenAI - Context Extraction (GPT)\"].json }}\nRaw: ={{ $json[\"transcript\"] || $json[\"Body\"] || $json[\"Text\"] }}"
+            }
+          ]
+        },
+        "credentials": {
+          "openAIApi": {
+            "apiKey": "<<PLACEHOLDER_OPENAI_API_KEY>>"
+          }
+        }
+      },
+  
+      {
+        "id": "8",
+        "name": "IF - Needs Human Escalation?",
+        "type": "n8n-nodes-base.if",
+        "position": [1500, 400],
+        "parameters": {
+          "conditions": {
+            "string": [
+              {
+                "value1": "={{ $node[\"OpenAI - Response Generator (GPT)\"].json[\"actions\"] && $node[\"OpenAI - Response Generator (GPT)\"].json[\"actions\"].some(a => a.type === 'escalate' ) }}",
+                "operation": "isEqual"
+              }
+            ]
+          }
+        }
+      },
+  
+      {
+        "id": "9",
+        "name": "Slack - Escalate to Human",
+        "type": "n8n-nodes-base.httpRequest",
+        "position": [1750, 260],
+        "parameters": {
+          "url": "<<PLACEHOLDER_SLACK_WEBHOOK_URL>>",
+          "method": "POST",
+          "body": "={ \"text\": \"AI Receptionist Escalation: \" + JSON.stringify({ transcript: $json[\"transcript\"], analysis: $node[\"OpenAI - Response Generator (GPT)\"].json }, null, 2) }",
+          "options": {}
+        }
+      },
+  
+      {
+        "id": "10",
+        "name": "Google Calendar - Check/Create",
+        "type": "n8n-nodes-base.googleCalendar",
+        "position": [1750, 420],
+        "parameters": {
+          "operation": "getEvents",
+          "calendarId": "primary",
+          "timeMin": "={{ new Date($json[\"suggested_slot_start\"])?.toISOString() || new Date().toISOString() }}",
+          "timeMax": "={{ new Date($json[\"suggested_slot_end\"])?.toISOString() || new Date(Date.now() + 86400000).toISOString() }}",
+          "maxResults": 20
+        },
+        "credentials": {
+          "googleApi": {
+            "email": "<<PLACEHOLDER_GOOGLE_SERVICE_ACCOUNT_EMAIL>>",
+            "privateKey": "<<PLACEHOLDER_GOOGLE_PRIVATE_KEY>>"
+          }
+        }
+      },
+  
+      {
+        "id": "11",
+        "name": "Google Calendar - Create Event",
+        "type": "n8n-nodes-base.googleCalendar",
+        "position": [2000, 420],
+        "parameters": {
+          "operation": "createEvent",
+          "calendarId": "primary",
+          "summary": "={{ $node[\"OpenAI - Context Extraction (GPT)\"].json?.entities?.subject || 'Meeting' }}",
+          "start": "={{ { dateTime: $json[\"start\"] || $json[\"suggested_slot_start\"] } }}",
+          "end": "={{ { dateTime: $json[\"end\"] || $json[\"suggested_slot_end\"] } }}",
+          "attendees": "={{ $json[\"attendees\"] || [] }}",
+          "description": "Scheduled by AI Receptionist"
+        },
+        "credentials": {
+          "googleApi": {
+            "email": "<<PLACEHOLDER_GOOGLE_SERVICE_ACCOUNT_EMAIL>>",
+            "privateKey": "<<PLACEHOLDER_GOOGLE_PRIVATE_KEY>>"
+          }
+        }
+      },
+  
+      {
+        "id": "12",
+        "name": "Salesforce - Contact Lookup/Create",
+        "type": "n8n-nodes-base.httpRequest",
+        "position": [1750, 600],
+        "parameters": {
+          "url": "https://<<PLACEHOLDER_SF_INSTANCE>>.salesforce.com/services/data/v53.0/query?q=SELECT+Id+FROM+Contact+WHERE+Email='{{ $json[\"entities\"]?.email || '' }}'",
+          "method": "GET",
+          "headers": {
+            "Authorization": "Bearer <<PLACEHOLDER_SF_ACCESS_TOKEN>>"
+          }
+        }
+      },
+  
+      {
+        "id": "13",
+        "name": "Pinecone - Upsert Memory",
+        "type": "n8n-nodes-base.httpRequest",
+        "position": [2100, 600],
+        "parameters": {
+          "url": "https://<<PLACEHOLDER_PINECONE_INDEX>>.svc.pinecone.io/vectors/upsert",
+          "method": "POST",
+          "headers": {
+            "Api-Key": "<<PLACEHOLDER_PINECONE_API_KEY>>",
+            "Content-Type": "application/json"
+          },
+          "body": "={ \"vectors\": [{ \"id\": $json[\"callId\"] || (Date.now() + '-' + Math.random()), \"values\": $json[\"embedding\"], \"metadata\": { \"text\": $json[\"transcript\"], \"entities\": $json[\"entities\"] } }] }"
+        }
+      },
+  
+      {
+        "id": "14",
+        "name": "ElevenLabs - TTS (optional voice reply)",
+        "type": "n8n-nodes-base.httpRequest",
+        "position": [2500, 420],
+        "parameters": {
+          "url": "https://api.elevenlabs.io/v1/text-to-speech/<<PLACEHOLDER_VOICE_ID>>",
+          "method": "POST",
+          "headers": {
+            "xi-api-key": "<<PLACEHOLDER_ELEVENLABS_API_KEY>>",
+            "Content-Type": "application/json"
+          },
+          "body": "={ \"text\": $node[\"OpenAI - Response Generator (GPT)\"].json.reply_text, \"voice\": \"<<PLACEHOLDER_VOICE_ID>>\" }",
+          "responseFormat": "file"
+        }
+      },
+  
+      {
+        "id": "15",
+        "name": "Twilio - Respond (TwiML / SMS)",
+        "type": "n8n-nodes-base.twilio",
+        "position": [2750, 420],
+        "parameters": {
+          "operation": "sendSms",
+          "from": "<<PLACEHOLDER_TWILIO_PHONE_NUMBER>>",
+          "to": "={{ $json[\"From\"] || $json[\"caller\"] || $json[\"phone\"] }}",
+          "message": "={{ $node[\"OpenAI - Response Generator (GPT)\"].json.reply_text }}"
+        },
+        "credentials": {
+          "twilioApi": {
+            "sid": "<<PLACEHOLDER_TWILIO_ACCOUNT_SID>>",
+            "authToken": "<<PLACEHOLDER_TWILIO_AUTH_TOKEN>>"
+          }
+        }
+      },
+  
+      {
+        "id": "16",
+        "name": "Airtable - Log Interaction",
+        "type": "n8n-nodes-base.httpRequest",
+        "position": [2750, 600],
+        "parameters": {
+          "url": "https://api.airtable.com/v0/<<PLACEHOLDER_AIRTABLE_BASE>>/Interactions",
+          "method": "POST",
+          "headers": {
+            "Authorization": "Bearer <<PLACEHOLDER_AIRTABLE_KEY>>",
+            "Content-Type": "application/json"
+          },
+          "body": "={ \"fields\": { \"CallId\": $json[\"callId\"], \"Transcript\": $json[\"transcript\"], \"Reply\": $node[\"OpenAI - Response Generator (GPT)\"].json.reply_text, \"Sentiment\": $node[\"AWS Comprehend Sentiment\"].json.Sentiment } }"
+        }
+      },
+  
+      {
+        "id": "17",
+        "name": "UiPath - Create Automation Task (Escalation)",
+        "type": "n8n-nodes-base.httpRequest",
+        "position": [2000, 260],
+        "parameters": {
+          "url": "<<PLACEHOLDER_UIPATH_ORCHESTRATOR_WEBHOOK>>",
+          "method": "POST",
+          "headers": {
+            "Authorization": "Bearer <<PLACEHOLDER_UIPATH_API_KEY>>",
+            "Content-Type": "application/json"
+          },
+          "body": "={ \"task\": \"Handle Escalation\", \"data\": { \"callId\": $json[\"callId\"], \"transcript\": $json[\"transcript\"], \"priority\": \"high\" } }"
+        }
+      },
+  
+      {
+        "id": "18",
+        "name": "Embedding - OpenAI (for memory)",
+        "type": "n8n-nodes-base.openAI",
+        "position": [1000, 100],
+        "parameters": {
+          "operation": "embedding",
+          "model": "text-embedding-3-small",
+          "input": "={{ $json[\"transcript\"] || $json[\"Body\"] || '' }}"
+        },
+        "credentials": {
+          "openAIApi": {
+            "apiKey": "<<PLACEHOLDER_OPENAI_API_KEY>>"
+          }
+        }
+      },
+  
+      {
+        "id": "19",
+        "name": "Set - normalize extracted fields",
+        "type": "n8n-nodes-base.set",
+        "position": [1250, 100],
+        "parameters": {
+          "values": {
+            "string": [
+              { "name": "transcript", "value": "={{ $node[\"Deepgram STT\"].json.results?.channels?.[0]?.alternatives?.[0]?.transcript || $node[\"Twilio Trigger (Voice/SMS)\"].json[\"Body\"] || '' }}" },
+              { "name": "callId", "value": "={{ $json[\"CallSid\"] || $json[\"call_sid\"] || (Date.now() + '-' + Math.floor(Math.random()*10000)) }}" }
+            ]
+          },
+          "options": {}
+        }
+      },
+  
+      {
+        "id": "20",
+        "name": "IF - Is Voice Call?",
+        "type": "n8n-nodes-base.if",
+        "position": [500, 120],
+        "parameters": {
+          "conditions": {
+            "string": [
+              {
+                "value1": "={{ $json[\"CallSid\"] !== undefined }}",
+                "operation": "isEqual"
+              }
+            ]
+          }
+        }
+      },
+  
+      {
+        "id": "21",
+        "name": "Slack - Notify Team (summary)",
+        "type": "n8n-nodes-base.httpRequest",
+        "position": [3000, 260],
+        "parameters": {
+          "url": "<<PLACEHOLDER_SLACK_WEBHOOK_URL>>",
+          "method": "POST",
+          "body": "={ \"text\": \"AI Receptionist handled call. Summary: \" + JSON.stringify({ callId: $json[\"callId\"], reply: $node[\"OpenAI - Response Generator (GPT)\"].json.reply_text }, null, 2) }"
+        }
+      }
+    ],
+    "connections": {
+      "Twilio Trigger (Voice/SMS)": {
+        "main": [
+          [
+            {
+              "node": "Set - normalize extracted fields",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "IF - Is Voice Call?",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "IF - Is Voice Call?": {
+        "main": [
+          [
+            {
+              "node": "Download Recording (if call)",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "OpenAI - Context Extraction (GPT)",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Download Recording (if call)": {
+        "main": [
+          [
+            {
+              "node": "Deepgram STT",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Deepgram STT": {
+        "main": [
+          [
+            {
+              "node": "Set - normalize extracted fields",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Embedding - OpenAI (for memory)",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set - normalize extracted fields": {
+        "main": [
+          [
+            {
+              "node": "OpenAI - Context Extraction (GPT)",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenAI - Context Extraction (GPT)": {
+        "main": [
+          [
+            {
+              "node": "Pinecone - Memory Lookup",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "OpenAI - Response Generator (GPT)",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Embedding - OpenAI (for memory)": {
+        "main": [
+          [
+            {
+              "node": "Pinecone - Memory Lookup",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Pinecone - Upsert Memory",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Pinecone - Memory Lookup": {
+        "main": [
+          [
+            {
+              "node": "OpenAI - Response Generator (GPT)",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenAI - Response Generator (GPT)": {
+        "main": [
+          [
+            {
+              "node": "IF - Needs Human Escalation?",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Google Calendar - Check/Create",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Salesforce - Contact Lookup/Create",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Twilio - Respond (TwiML / SMS)",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Airtable - Log Interaction",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Slack - Notify Team (summary)",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "IF - Needs Human Escalation?": {
+        "main": [
+          [
+            {
+              "node": "Slack - Escalate to Human",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "UiPath - Create Automation Task (Escalation)",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          []
+        ]
+      },
+      "Google Calendar - Check/Create": {
+        "main": [
+          [
+            {
+              "node": "Google Calendar - Create Event",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Salesforce - Contact Lookup/Create": {
+        "main": [
+          [
+            {
+              "node": "Pinecone - Upsert Memory",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "ElevenLabs - TTS (optional voice reply)": {
+        "main": [
+          [
+            {
+              "node": "Twilio - Respond (TwiML / SMS)",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "active": false,
+    "settings": {}
+  }
+  

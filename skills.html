@@ -1,0 +1,237 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css"/>
+    <title>Harshith Motipalli Skills</title>
+
+    <style>
+        .nav-container {
+            position: fixed;
+            top: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            z-index: 1000;
+        }
+
+        .floating-nav {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px) saturate(180%);
+            -webkit-backdrop-filter: blur(8px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 60px;
+            padding: 12px 24px;
+            gap: 8px;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.2),
+                0 4px 16px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .nav-item {
+            padding: 12px 20px;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-item:hover {
+            color: rgba(255, 255, 255, 1);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-item.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .back-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px) saturate(180%);
+            -webkit-backdrop-filter: blur(8px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 50%;
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.2),
+                0 4px 16px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: white;
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.25);
+            box-shadow: 
+                0 16px 48px rgba(0, 0, 0, 0.25),
+                0 8px 24px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .back-button svg {
+            width: 24px;
+            height: 24px;
+            transition: transform 0.3s ease;
+        }
+
+        .back-button:hover svg {
+            transform: translateX(-2px);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="nav-container">
+        <div class="back-button" onclick="goBack()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m12 19-7-7 7-7"/>
+                <path d="m19 12H5"/>
+            </svg>
+        </div>
+        <nav class="floating-nav">
+            <a href="About_index.html" class="nav-item">About</a>
+            <a href="certifications.html" class="nav-item">Certifications</a>
+            <a href="skills.html" class="nav-item active">Skills</a>
+            <a href="experience.html" class="nav-item">Experience</a>
+            <a href="contact.html" class="nav-item">Contact</a>
+        </nav>
+    </div>
+
+    <section class="hero">
+        <canvas id="canvas" width="500" height="500"></canvas>
+        <div class="glass-header">
+            <h1>Harshith Motipalli's Skills</h1>
+            <!-- <p>
+                Discover Harshith's skill set and expertise.<br>
+            </p>
+            <button class="neu-button">Scroll</button> -->
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="content-container">
+            <!-- <h2>Skills</h2>
+            <p>Explore Harshith's comprehensive skill set across various technologies and domains.</p> -->
+            
+            <!-- Computer Skills Section -->
+            <div class="skills-section">
+                <h3 class="section-header">Computer</h3>
+                <div class="skills-grid">
+                    <div class="skill-box">Python</div>
+                    <div class="skill-box">Java</div>
+                    <div class="skill-box">C++</div>
+                    <div class="skill-box">Go</div>
+                    <div class="skill-box">C#</div>
+                    <div class="skill-box">Perl</div>
+                    <div class="skill-box">PowerShell</div>
+                    <div class="skill-box">SQL</div>
+                    <div class="skill-box">HTML5</div>
+                    <div class="skill-box">CSS</div>
+                    <div class="skill-box">JavaScript</div>
+                    <div class="skill-box">React</div>
+                    <div class="skill-box">PHP</div>
+                    <div class="skill-box">Packet Tracer</div>
+                    <div class="skill-box">Linux (Ubuntu & Kali)</div>
+                    <div class="skill-box">Windows (Home/Server/8/10/11)</div>
+                    <div class="skill-box">macOS</div>
+                    <div class="skill-box">TCP/IP</div>
+                    <div class="skill-box">DHCP/DNS</div>
+                    <div class="skill-box">VLAN</div>
+                    <div class="skill-box">VPN</div>
+                    <div class="skill-box">OSPF</div>
+                    <div class="skill-box">IPSEC</div>
+                    <div class="skill-box">ACLs</div>
+                    <div class="skill-box">SNMP</div>
+                    <div class="skill-box">SMTP</div>
+                    <div class="skill-box">Azure</div>
+                    <div class="skill-box">Git</div>
+                    <div class="skill-box">Netflow</div>
+                    <div class="skill-box">Splunk</div>
+                    <div class="skill-box">Wireshark</div>
+                    <div class="skill-box">Grafana</div>
+                    <div class="skill-box">Prometheus</div>
+                </div>
+            </div>
+
+            <!-- Security & Systems Section -->
+            <div class="skills-section">
+                <h3 class="section-header">Security & Systems</h3>
+                <div class="skills-grid">
+                    <div class="skill-box">Network Security</div>
+                    <div class="skill-box">Cryptography (AES, RSA, PKI)</div>
+                    <div class="skill-box">Security Architecture</div>
+                    <div class="skill-box">Threat Modeling</div>
+                    <div class="skill-box">Incident Response</div>
+                    <div class="skill-box">IoT Security</div>
+                    <div class="skill-box">Artificial Intelligence</div>
+                    <div class="skill-box">Machine Learning</div>
+                    <div class="skill-box">Deep Learning</div>
+                    <div class="skill-box">Neural Networks</div>
+                    <div class="skill-box">Edge AI</div>
+                </div>
+            </div>
+
+            <!-- General Skills Section -->
+            <div class="skills-section">
+                <h3 class="section-header">General</h3>
+                <div class="skills-grid">
+                    <div class="skill-box">Communication</div>
+                    <div class="skill-box">Leadership</div>
+                    <div class="skill-box">Teamwork</div>
+                    <div class="skill-box">Problem Solving</div>
+                    <div class="skill-box">Critical Thinking</div>
+                    <div class="skill-box">Management</div>
+                    <div class="skill-box">Organization</div>
+                    <div class="skill-box">Networking</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="main.js"></script>
+    <script>
+        function setActive(clickedItem) {
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            clickedItem.classList.add('active');
+        }
+
+
+        function goBack() {
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+</html>
+
+

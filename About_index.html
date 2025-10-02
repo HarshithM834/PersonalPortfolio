@@ -1,0 +1,212 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css" />
+    <title>About Harshith Motipalli</title>
+
+    <style>
+        .nav-container {
+            position: fixed;
+            top: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            z-index: 1000;
+        }
+
+        .floating-nav {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px) saturate(180%);
+            -webkit-backdrop-filter: blur(8px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 60px;
+            padding: 12px 24px;
+            gap: 8px;
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.2),
+                0 4px 16px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .nav-item {
+            padding: 12px 20px;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-item:hover {
+            color: rgba(255, 255, 255, 1);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-item.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .back-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px) saturate(180%);
+            -webkit-backdrop-filter: blur(8px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 50%;
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.2),
+                0 4px 16px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: white;
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.25);
+            box-shadow:
+                0 16px 48px rgba(0, 0, 0, 0.25),
+                0 8px 24px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .back-button svg {
+            width: 24px;
+            height: 24px;
+            transition: transform 0.3s ease;
+        }
+
+        .back-button:hover svg {
+            transform: translateX(-2px);
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="nav-container">
+        <div class="back-button" onclick="goBack()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="m12 19-7-7 7-7" />
+                <path d="m19 12H5" />
+            </svg>
+        </div>
+        <nav class="floating-nav">
+            <a href="About_index.html" class="nav-item active">About</a>
+            <a href="certifications.html" class="nav-item">Certifications</a>
+            <a href="skills.html" class="nav-item">Skills</a>
+            <a href="experience.html" class="nav-item">Experience</a>
+            <a href="contact.html" class="nav-item">Contact</a>
+        </nav>
+    </div>
+
+
+    <section class="hero">
+        <canvas id="canvas" width="500" height="500"></canvas>
+        <div class="glass-header">
+            <h1>About Harshith Motipalli</h1>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="content-container">
+            <h2>About Me</h2>
+            <p>Harshith Motipalli is a George Mason Senior (by college credit attained in High School) pursuing a Bachelor of Science in Cybersecurity Engineering with a minor in IT and an academic background in cybersecurity, networking, machine learning, and software development. Some of his hobbies include gaming, basketball, stocks, crypto, music, and spending time talking to people. Some of his interests include F1 Racing, travelling, machine learning, and reading up on new technological trends. These hobbies and interests give him both a creative and analytical outlook, allowing him to see not only how technology/software is built, but how it impacts people and industries. Harshith is extroverted and a clear communicator who is always eager to collaborate in a team setting. He is driven, quick to adapt, and ready to take on new opportunities in the tech world.</p>
+            
+            <div class="resume-section">
+                <h2>Harshith's Resume/CV</h2>
+                <div class="pdf-container">
+                    <iframe src="UpdatedResume - Harshith Motipalli.pdf#toolbar=0&navpanes=0&scrollbar=0&view=FitH&zoom=110" type="application/pdf" width="100%" height="800px">
+                        <p>Your browser does not support PDFs. 
+                           <a href="UpdatedResume - Harshith Motipalli.pdf">Click here to download the PDF</a>.
+                        </p>
+                    </iframe>
+                </div>
+                
+                <div class="download-section">
+                    <button class="download-btn" onclick="downloadResume()">
+                        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="7,10 12,15 17,10"/>
+                            <line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                        Download Resume
+                    </button>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <script src="main.js"></script>
+    <script>
+        function setActive(clickedItem) {
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            clickedItem.classList.add('active');
+        }
+
+        function goBack() {
+            window.location.href = "index.html"; // Always navigate to the home page
+        }
+
+        function downloadResume() {
+            // Create a temporary anchor element to trigger download
+            const link = document.createElement('a');
+            link.href = 'UpdatedResume - Harshith Motipalli.pdf';
+            link.download = 'Harshith_Motipalli_Resume.pdf';
+            link.target = '_blank';
+            
+            // Append to body, click, and remove
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // Optional: Add a visual feedback
+            const btn = document.querySelector('.download-btn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = `
+                <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 6L9 17l-5-5"/>
+                </svg>
+                Download Started!
+            `;
+            
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+            }, 2000);
+        }
+    </script>
+</body>
+
+</html>

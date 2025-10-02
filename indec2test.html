@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Scroll Transform Navbar</title>
+  <style>
+    /* Reset & basic layout */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      cursor: pointer;
+      padding: 10px 15px;
+      transition: 0.3s;
+    }
+
+    li:hover {
+      background-color: #e0e0e0;
+      border-radius: 10px;
+    }
+
+    /* Floating rounded navbar */
+    .floating-navbar {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: white;
+      border-radius: 40px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      padding: 10px 30px;
+      z-index: 999;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    /* Sticky nav */
+    .sticky-navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background-color: white;
+      border-bottom: 1px solid #ccc;
+      padding: 10px 0;
+      text-align: center;
+      z-index: 998;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    /* Hide */
+    .hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-500px); /* Moves the element upward */
+      transition: opacity 0.4s ease, transform 0.1s ease;
+    }
+
+    /* Fake content for scroll */
+    .content {
+      height: 2000px;
+      padding-top: 120px;
+      background: linear-gradient(to bottom, #605f5f, #ddd);
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 200px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Navbar -->
+  <div id="floatingNavbar" class="floating-navbar">
+    <ul>
+      <li>About</li>
+      <li>Certifications</li>
+      <li>Skills</li>
+      <li>Experience</li>
+      <li>Contact</li>
+    </ul>
+  </div>
+
+  <!-- Sticky Navbar -->
+  <div id="stickyNavbar" class="sticky-navbar hidden">
+    <ul>
+      <li>About</li>
+      <li>Certifications</li>
+      <li>Skills</li>
+      <li>Experience</li>
+      <li>Contact</li>
+    </ul>
+  </div>
+
+  <!-- Scrollable content -->
+  <div class="content">
+    <h1>Scroll to See the Nav Transform</h1>
+  </div>
+
+  <script>
+    const floatingNavbar = document.getElementById('floatingNavbar');
+    const stickyNavbar = document.getElementById('stickyNavbar');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        floatingNavbar.classList.add('hidden');
+        stickyNavbar.classList.remove('hidden');
+      } else {
+        floatingNavbar.classList.remove('hidden');
+        stickyNavbar.classList.add('hidden');
+      }
+    });
+  </script>
+
+</body>
+</html>

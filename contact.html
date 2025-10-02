@@ -1,0 +1,190 @@
+
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css"/>
+    <title>Harshith Motipalli's Contact</title>
+
+    <style>
+        .nav-container {
+            position: fixed;
+            top: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            z-index: 1000;
+        }
+
+        .floating-nav {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px) saturate(180%);
+            -webkit-backdrop-filter: blur(8px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 60px;
+            padding: 12px 24px;
+            gap: 8px;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.2),
+                0 4px 16px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .nav-item {
+            padding: 12px 20px;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-item:hover {
+            color: rgba(255, 255, 255, 1);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-item.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .back-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px) saturate(180%);
+            -webkit-backdrop-filter: blur(8px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 50%;
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.2),
+                0 4px 16px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: white;
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.25);
+            box-shadow: 
+                0 16px 48px rgba(0, 0, 0, 0.25),
+                0 8px 24px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .back-button svg {
+            width: 24px;
+            height: 24px;
+            transition: transform 0.3s ease;
+        }
+
+        .back-button:hover svg {
+            transform: translateX(-2px);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="nav-container">
+        <div class="back-button" onclick="goBack()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m12 19-7-7 7-7"/>
+                <path d="m19 12H5"/>
+            </svg>
+        </div>
+        <nav class="floating-nav">
+            <a href="About_index.html" class="nav-item">About</a>
+            <a href="certifications.html" class="nav-item">Certifications</a>
+            <a href="skills.html" class="nav-item">Skills</a>
+            <a href="experience.html" class="nav-item">Experience</a>
+            <a href="contact.html" class="nav-item active">Contact</a>
+        </nav>
+    </div>
+
+    <section class="hero">
+        <canvas id="canvas" width="500" height="500"></canvas>
+        <div class="glass-header">
+            <h1>Harshith Motipalli Contact</h1>
+            <!-- <p>
+                Get in touch with Harshith.<br>
+            </p>
+            <button class="neu-button">Scroll</button> -->
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="content-container" style="text-align: center;">
+            <h2>CONTACT</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr 1fr; gap: 30px; margin-top: 50px; max-width: 900px; margin-left: auto; margin-right: auto;">
+                <div style="background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(8px) saturate(180%); -webkit-backdrop-filter: blur(8px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 20px; padding: 40px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 4px 16px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.4), inset 0 -1px 0 rgba(255, 255, 255, 0.1); transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);">
+                    <h3 style="color: white; font-size: 22px; margin-bottom: 20px; font-weight: 600;">Personal Email:</h3>
+                    <a href="mailto:motipallih2@gmail.com" style="color: white; text-decoration: none; font-size: 18px;">Motipallih2@gmail.com</a>
+                </div>
+                <div style="background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(8px) saturate(180%); -webkit-backdrop-filter: blur(8px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 20px; padding: 40px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 4px 16px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.4), inset 0 -1px 0 rgba(255, 255, 255, 0.1); transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);">
+                    <h3 style="color: white; font-size: 22px; margin-bottom: 20px; font-weight: 600;">School Email:</h3>
+                    <a href="mailto:hmotipal@gmu.edu" style="color: white; text-decoration: none; font-size: 18px;">Hmotipal@gmu.edu</a>
+                </div>
+                <div style="background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(8px) saturate(180%); -webkit-backdrop-filter: blur(8px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 20px; padding: 40px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 4px 16px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.4), inset 0 -1px 0 rgba(255, 255, 255, 0.1); transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);">
+                    <h3 style="color: white; font-size: 22px; margin-bottom: 20px; font-weight: 600;">Phone Number:</h3>
+                    <a href="tel:571-306-9738" style="color: white; text-decoration: none; font-size: 18px;">571-306-9738</a>
+                </div>
+                <div style="background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(8px) saturate(180%); -webkit-backdrop-filter: blur(8px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 20px; padding: 40px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 4px 16px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.4), inset 0 -1px 0 rgba(255, 255, 255, 0.1); transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);">
+                    <h3 style="color: white; font-size: 22px; margin-bottom: 20px; font-weight: 600;">LinkedIn:</h3>
+                    <a href="https://www.linkedin.com/in/harshith-motipalli" target="_blank" style="color: white; text-decoration: none; font-size: 18px;">www.linkedin.com/in/harshith-motipalli</a>
+                </div>
+                <div style="background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(8px) saturate(180%); -webkit-backdrop-filter: blur(8px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 20px; padding: 40px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 4px 16px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.4), inset 0 -1px 0 rgba(255, 255, 255, 0.1); transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);">
+                    <h3 style="color: white; font-size: 22px; margin-bottom: 20px; font-weight: 600;">GitHub:</h3>
+                    <a href="https://github.com/HarshithM834" target="_blank" style="color: white; text-decoration: none; font-size: 18px;">@HarshithM834</a>
+                </div>
+                <div style="background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(8px) saturate(180%); -webkit-backdrop-filter: blur(8px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 20px; padding: 40px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 4px 16px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.4), inset 0 -1px 0 rgba(255, 255, 255, 0.1); transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);">
+                    <h3 style="color: white; font-size: 22px; margin-bottom: 20px; font-weight: 600;">Discord:</h3>
+                    <a href="https://discord.com/users/harshith.123" target="_blank" style="color: white; text-decoration: none; font-size: 18px;">Harshith.123</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="main.js"></script>
+    <script>
+        function setActive(clickedItem) {
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            clickedItem.classList.add('active');
+        }
+
+
+        function goBack() {
+            window.location.href = "index.html"; // Always navigate to the home page
+        }
+    </script>
+</body>
+</html>
+
+
