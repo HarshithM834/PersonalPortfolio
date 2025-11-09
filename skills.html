@@ -142,6 +142,45 @@
                 inset 0 1px 0 rgba(255, 255, 255, 0.5),
                 inset 0 -1px 0 rgba(255, 255, 255, 0.2);
         }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                width: calc(100% - 32px);
+                left: 50%;
+                transform: translateX(-50%);
+                gap: 12px;
+            }
+
+            .floating-nav {
+                position: absolute;
+                top: 72px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: calc(100% - 32px);
+                padding: 16px;
+                border-radius: 22px;
+                flex-direction: column;
+                gap: 8px;
+                display: none;
+            }
+
+            .floating-nav.open {
+                display: flex;
+            }
+
+            .nav-item {
+                width: 100%;
+                text-align: center;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .skills-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+        }
     </style>
 </head>
 
