@@ -349,16 +349,32 @@
             }
 
             .experience-timeline {
-                padding: 20px 10px 20px 16px;
+                max-width: 100%;
+                padding: 18px 14px 32px 18px;
             }
 
             .timeline-item {
-                padding-left: 28px;
+                padding-left: 34px;
+                margin-bottom: 42px;
+            }
+
+            .timeline-marker {
+                left: 6px;
+                top: 14px;
+                width: 14px;
+                height: 14px;
+            }
+
+            .timeline-item::before {
+                left: 12px;
+                top: 26px;
+                height: calc(100% + 16px);
             }
 
             .experience-card {
-                padding: 24px;
+                padding: 24px 20px;
                 border-radius: 18px;
+                width: 100%;
             }
 
             .card-header h3 {
@@ -371,12 +387,12 @@
 
             .duration {
                 font-size: 12px;
-                padding: 4px 10px;
+                padding: 4px 12px;
             }
 
             .card-content li {
                 font-size: 14px;
-                padding-left: 20px;
+                padding-left: 18px;
             }
         }
 
