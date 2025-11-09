@@ -1,0 +1,357 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css" />
+    <title>Harshith's Coursework</title>
+
+    <style>
+        .nav-container {
+            position: fixed;
+            top: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            z-index: 1000;
+        }
+
+        .floating-nav {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px) saturate(180%);
+            -webkit-backdrop-filter: blur(8px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 60px;
+            padding: 12px 24px;
+            gap: 8px;
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.2),
+                0 4px 16px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .nav-item {
+            padding: 12px 20px;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-item:hover {
+            color: rgba(255, 255, 255, 1);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-item.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .back-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px) saturate(180%);
+            -webkit-backdrop-filter: blur(8px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 50%;
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.2),
+                0 4px 16px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: white;
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.25);
+            box-shadow:
+                0 16px 48px rgba(0, 0, 0, 0.25),
+                0 8px 24px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .back-button svg {
+            width: 24px;
+            height: 24px;
+            transition: transform 0.3s ease;
+        }
+
+        .back-button:hover svg {
+            transform: translateX(-2px);
+        }
+
+        .coursework-intro {
+            text-align: center;
+            max-width: 780px;
+            margin: 0 auto 40px auto;
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.6;
+        }
+
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+        }
+
+        .course-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(18px) saturate(180%);
+            -webkit-backdrop-filter: blur(18px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.28),
+                0 8px 32px rgba(0, 0, 0, 0.18),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.08);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1), border-color 0.35s ease;
+        }
+
+        .course-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(255, 255, 255, 0.28);
+        }
+
+        .course-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .course-title {
+            margin: 0;
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .course-code {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .course-desc {
+            margin: 0;
+            color: rgba(255, 255, 255, 0.78);
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .course-grid {
+                gap: 18px;
+            }
+
+            .course-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="nav-container">
+        <div class="back-button" onclick="goBack()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="m12 19-7-7 7-7" />
+                <path d="m19 12H5" />
+            </svg>
+        </div>
+        <nav class="floating-nav">
+            <a href="About_index.html" class="nav-item">About</a>
+            <a href="certifications.html" class="nav-item">Certifications</a>
+            <a href="skills.html" class="nav-item">Skills</a>
+            <a href="coursework.html" class="nav-item active">Coursework</a>
+            <a href="experience.html" class="nav-item">Experience</a>
+            <a href="contact.html" class="nav-item">Contact</a>
+        </nav>
+    </div>
+
+    <section class="hero">
+        <canvas id="canvas" width="500" height="500"></canvas>
+        <div class="glass-header">
+            <h1>Relevant Coursework</h1>
+            <p>Computer science, engineering, mathematics, and information technology foundations completed at George Mason University.</p>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="content-container">
+            <div class="coursework-intro">
+                These courses reflect a balance of theoretical depth and applied experience spanning algorithms, systems,
+                networking, cyber security, and advanced mathematics.
+            </div>
+
+            <div class="course-grid">
+                <div class="course-card">
+                    <div class="course-icon">∑</div>
+                    <h3 class="course-title">Discrete Mathematics I</h3>
+                    <span class="course-code">MATH 125</span>
+                    <p class="course-desc">Introduces discrete mathematics and combinatorial proof techniques covering induction, sets, graphs, trees, recursion, and enumeration.</p>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">{ }</div>
+                    <h3 class="course-title">Introduction to Computer Programming</h3>
+                    <span class="course-code">CS 112</span>
+                    <p class="course-desc">Rigorous problem-solving course built around procedural programming, algorithmic design patterns, control structures, data types, and systematic testing.</p>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">C</div>
+                    <h3 class="course-title">Computer Programming for Engineers</h3>
+                    <span class="course-code">CS 222</span>
+                    <p class="course-desc">Second-language programming in C for engineering applications, emphasizing pointers, data structures, file handling, bitwise operations, and Unix-based tooling.</p>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">🌐</div>
+                    <h3 class="course-title">Engineering Systems in a Complex World</h3>
+                    <span class="course-code">SYST 202</span>
+                    <p class="course-desc">Explores complex engineering systems through global case studies, analyzing cultural, environmental, political, and economic factors that shape strategic decisions.</p>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">🔐</div>
+                    <h3 class="course-title">Introduction to Cyber Security Engineering</h3>
+                    <span class="course-code">CYSE 101</span>
+                    <p class="course-desc">Covers cyber security engineering principles, terminology, and lifecycle integration, highlighting how protections are built into system design processes.</p>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">🧩</div>
+                    <h3 class="course-title">Intro to Computing for Digital Systems Engineering</h3>
+                    <span class="course-code">CYSE 130</span>
+                    <p class="course-desc">Links SysML modeling with Python programming to automate tasks, analyze data, access web APIs, and support model-based systems engineering workflows.</p>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">📡</div>
+                    <h3 class="course-title">Computer Networking</h3>
+                    <span class="course-code">CYSE 230</span>
+                    <p class="course-desc">Covers OSI layering, link protocols, switching, routing, transport services, congestion control, and DNS within modern LAN and WAN environments.</p>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">⚙️</div>
+                    <h3 class="course-title">Systems Engineering Principles</h3>
+                    <span class="course-code">SYST 205</span>
+                    <p class="course-desc">Presents lifecycle fundamentals—requirements, design frameworks, functional modeling, qualification strategies, and sustainment—from a cyber security engineering perspective.</p>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">🧠</div>
+                    <h3 class="course-title">Object-oriented Modeling and Design</h3>
+                    <span class="course-code">SYST 230</span>
+                    <p class="course-desc">Extends SysML and Python to design object-oriented systems, leveraging libraries such as NumPy, Pandas, and Matplotlib for data-driven modeling and visualization.</p>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">🔌</div>
+                    <h3 class="course-title">Digital Electronics</h3>
+                    <span class="course-code">ECE 301</span>
+                    <p class="course-desc">Introduces digital systems and circuits covering binary codes, logic devices, microelectronics, multivibrators, converters, and foundational computer architecture.</p>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">∫</div>
+                    <h3 class="course-title">Analytic Geometry and Calculus I</h3>
+                    <span class="course-code">MATH 113</span>
+                    <p class="course-desc">Focuses on functions, limits, derivatives, optimization, integrals, and transcendental functions as the starting point for the calculus sequence.</p>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">∞</div>
+                    <h3 class="course-title">Analytic Geometry and Calculus II</h3>
+                    <span class="course-code">MATH 114</span>
+                    <p class="course-desc">Extends calculus with advanced integration methods, conic sections, parametric equations, infinite series, and power series analysis.</p>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">∇</div>
+                    <h3 class="course-title">Analytic Geometry and Calculus III</h3>
+                    <span class="course-code">MATH 213</span>
+                    <p class="course-desc">Covers multivariable calculus topics including partial derivatives, multiple integrals, vector calculus, and three-dimensional analytic geometry.</p>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">λ</div>
+                    <h3 class="course-title">Elementary Differential Equations</h3>
+                    <span class="course-code">MATH 214</span>
+                    <p class="course-desc">Introduces first-order and higher-order differential equations, Laplace transforms, linear and nonlinear systems, numerical methods, and modeling applications.</p>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">💻</div>
+                    <h3 class="course-title">Introduction to Computing</h3>
+                    <span class="course-code">IT 104</span>
+                    <p class="course-desc">Lecture and lab survey of computing concepts—hardware, software, networking, security, databases, web development, and ethical issues—paired with hands-on tools.</p>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">🛰️</div>
+                    <h3 class="course-title">Data Communications and Network Principles</h3>
+                    <span class="course-code">IT 341</span>
+                    <p class="course-desc">Examines OSI and Internet models, routing, protocol configuration, and extensive lab work designing and testing data communication networks.</p>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">⚡</div>
+                    <h3 class="course-title">Advanced Networking Principles</h3>
+                    <span class="course-code">IT 445</span>
+                    <p class="course-desc">Advanced treatment of WAN technologies, VLSM, CIDR, NAT, DHCP, network management systems, and command-line Layer 2 switch configurations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="main.js"></script>
+    <script>
+        function goBack() {
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+</html>
+
