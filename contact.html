@@ -108,6 +108,127 @@
         .back-button:hover svg {
             transform: translateX(-2px);
         }
+
+        .contact-section {
+            text-align: center;
+            padding: 20px 0 0;
+        }
+
+        .contact-header {
+            max-width: 720px;
+            margin: 0 auto 48px;
+        }
+
+        .contact-header h2 {
+            font-size: 36px;
+            color: rgba(255, 255, 255, 0.96);
+            margin-bottom: 16px;
+            letter-spacing: 1px;
+        }
+
+        .contact-header p {
+            color: rgba(255, 255, 255, 0.72);
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 28px;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        .contact-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 22px;
+            padding: 36px 32px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.92);
+            box-shadow: 0 22px 45px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 28px 55px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.26);
+        }
+
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.05));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: rgba(255, 255, 255, 0.92);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 12px 28px rgba(0, 0, 0, 0.32);
+        }
+
+        .contact-card h3 {
+            margin: 0;
+            font-size: 22px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.94);
+        }
+
+        .contact-card span {
+            color: rgba(255, 255, 255, 0.78);
+            font-size: 15px;
+        }
+
+        .contact-card small {
+            color: rgba(255, 255, 255, 0.55);
+            font-size: 13px;
+        }
+
+        .contact-card a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .contact-button {
+            margin-top: auto;
+            padding: 10px 22px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, rgba(96, 165, 250, 0.6), rgba(129, 140, 248, 0.5));
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 14px;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+        }
+
+        .contact-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(96, 165, 250, 0.25);
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                gap: 12px;
+            }
+
+            .contact-card {
+                padding: 32px 28px;
+            }
+
+            .contact-header h2 {
+                font-size: 32px;
+            }
+        }
     </style>
 </head>
 
@@ -141,32 +262,52 @@
     </section>
 
     <section class="content-section">
-        <div class="content-container" style="text-align: center;">
-            <h2>CONTACT</h2>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr 1fr; gap: 30px; margin-top: 50px; max-width: 900px; margin-left: auto; margin-right: auto;">
-                <div style="background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(8px) saturate(180%); -webkit-backdrop-filter: blur(8px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 20px; padding: 40px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 4px 16px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.4), inset 0 -1px 0 rgba(255, 255, 255, 0.1); transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);">
-                    <h3 style="color: white; font-size: 22px; margin-bottom: 20px; font-weight: 600;">Personal Email:</h3>
-                    <a href="mailto:motipallih2@gmail.com" style="color: white; text-decoration: none; font-size: 18px;">Motipallih2@gmail.com</a>
+        <div class="content-container contact-section">
+            <div class="contact-header">
+                <p style="font-size: 18px; color: rgba(255, 255, 255, 0.78);">I'm always excited to collaborate on security engineering, machine learning, or new ideas. Reach out through any of the channels below.</p>
+            </div>
+
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <div class="contact-icon">✉️</div>
+                    <h3>Email</h3>
+                    <span>motipallih2@gmail.com</span>
+                    <a class="contact-button" href="mailto:motipallih2@gmail.com">Send Email</a>
                 </div>
-                <div style="background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(8px) saturate(180%); -webkit-backdrop-filter: blur(8px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 20px; padding: 40px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 4px 16px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.4), inset 0 -1px 0 rgba(255, 255, 255, 0.1); transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);">
-                    <h3 style="color: white; font-size: 22px; margin-bottom: 20px; font-weight: 600;">School Email:</h3>
-                    <a href="mailto:hmotipal@gmu.edu" style="color: white; text-decoration: none; font-size: 18px;">Hmotipal@gmu.edu</a>
+
+                <div class="contact-card">
+                    <div class="contact-icon">🎓</div>
+                    <h3>School Email</h3>
+                    <span>hmotipal@gmu.edu</span>
+                    <a class="contact-button" href="mailto:hmotipal@gmu.edu">Email via GMU</a>
                 </div>
-                <div style="background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(8px) saturate(180%); -webkit-backdrop-filter: blur(8px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 20px; padding: 40px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 4px 16px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.4), inset 0 -1px 0 rgba(255, 255, 255, 0.1); transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);">
-                    <h3 style="color: white; font-size: 22px; margin-bottom: 20px; font-weight: 600;">Phone Number:</h3>
-                    <a href="tel:571-306-9738" style="color: white; text-decoration: none; font-size: 18px;">571-306-9738</a>
+
+                <div class="contact-card">
+                    <div class="contact-icon">📱</div>
+                    <h3>Phone</h3>
+                    <span>571-306-9738</span>
+                    <a class="contact-button" href="tel:571-306-9738">Call Now</a>
                 </div>
-                <div style="background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(8px) saturate(180%); -webkit-backdrop-filter: blur(8px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 20px; padding: 40px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 4px 16px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.4), inset 0 -1px 0 rgba(255, 255, 255, 0.1); transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);">
-                    <h3 style="color: white; font-size: 22px; margin-bottom: 20px; font-weight: 600;">LinkedIn:</h3>
-                    <a href="https://www.linkedin.com/in/harshith-motipalli" target="_blank" style="color: white; text-decoration: none; font-size: 18px;">www.linkedin.com/in/harshith-motipalli</a>
+
+                <div class="contact-card">
+                    <div class="contact-icon">💼</div>
+                    <h3>LinkedIn</h3>
+                    <span>linkedin.com/in/harshith-motipalli</span>
+                    <a class="contact-button" href="https://www.linkedin.com/in/harshith-motipalli" target="_blank">Connect</a>
                 </div>
-                <div style="background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(8px) saturate(180%); -webkit-backdrop-filter: blur(8px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 20px; padding: 40px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 4px 16px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.4), inset 0 -1px 0 rgba(255, 255, 255, 0.1); transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);">
-                    <h3 style="color: white; font-size: 22px; margin-bottom: 20px; font-weight: 600;">GitHub:</h3>
-                    <a href="https://github.com/HarshithM834" target="_blank" style="color: white; text-decoration: none; font-size: 18px;">@HarshithM834</a>
+
+                <div class="contact-card">
+                    <div class="contact-icon">🐙</div>
+                    <h3>GitHub</h3>
+                    <span>@HarshithM834</span>
+                    <a class="contact-button" href="https://github.com/HarshithM834" target="_blank">View Code</a>
                 </div>
-                <div style="background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(8px) saturate(180%); -webkit-backdrop-filter: blur(8px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 20px; padding: 40px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 4px 16px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.4), inset 0 -1px 0 rgba(255, 255, 255, 0.1); transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);">
-                    <h3 style="color: white; font-size: 22px; margin-bottom: 20px; font-weight: 600;">Discord:</h3>
-                    <a href="https://discord.com/users/harshith.123" target="_blank" style="color: white; text-decoration: none; font-size: 18px;">Harshith.123</a>
+
+                <div class="contact-card">
+                    <div class="contact-icon">💬</div>
+                    <h3>Discord</h3>
+                    <span>Harshith.123</span>
+                    <a class="contact-button" href="https://discord.com/users/harshith.123" target="_blank">Message</a>
                 </div>
             </div>
         </div>
