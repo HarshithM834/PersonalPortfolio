@@ -143,7 +143,39 @@
                 inset 0 -1px 0 rgba(255, 255, 255, 0.2);
         }
 
-        /* Experience Timeline Styles */
+        /* Experience Section Styles */
+        .experience-section {
+            margin-bottom: 80px;
+        }
+
+        .experience-section:last-child {
+            margin-bottom: 40px;
+        }
+
+        .section-header {
+            font-family: "Bebas Neue", sans-serif;
+            font-size: 2.5em;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.95);
+            position: relative;
+        }
+
+        .section-header::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+            border-radius: 2px;
+        }
+
+        /* Timeline Styles */
         .experience-timeline {
             position: relative;
             max-width: 900px;
@@ -153,7 +185,7 @@
 
         .timeline-item {
             position: relative;
-            margin-bottom: 60px;
+            margin-bottom: 30px;
             padding-left: 60px;
         }
 
@@ -164,7 +196,7 @@
         .timeline-marker {
             position: absolute;
             left: 0;
-            top: 20px;
+            top: 12px;
             width: 20px;
             height: 20px;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
@@ -182,7 +214,7 @@
             content: '';
             position: absolute;
             left: 9px;
-            top: 40px;
+            top: 32px;
             width: 2px;
             height: calc(100% + 20px);
             background: linear-gradient(
@@ -199,12 +231,37 @@
             display: none;
         }
 
-        /* Glass Card Styles */
-        .experience-card {
+        /* Compact Rounded Box Styles */
+        .experience-box {
             background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(20px) saturate(180%);
             -webkit-backdrop-filter: blur(20px) saturate(180%);
             border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 15px;
+            padding: 18px 24px;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.2),
+                0 4px 16px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+
+        .experience-box:hover:not(.active) {
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 
+                0 16px 48px rgba(0, 0, 0, 0.3),
+                0 8px 24px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .experience-box.active {
+            border-color: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.12);
             border-radius: 20px;
             padding: 30px;
             box-shadow: 
@@ -212,86 +269,90 @@
                 0 8px 32px rgba(0, 0, 0, 0.2),
                 inset 0 1px 0 rgba(255, 255, 255, 0.4),
                 inset 0 -1px 0 rgba(255, 255, 255, 0.1);
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            position: relative;
+        }
+
+        .box-content {
+            max-height: 0;
+            opacity: 0;
             overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .experience-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.4),
-                transparent
-            );
+        .experience-box.active .box-content {
+            max-height: 2000px;
+            opacity: 1;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .experience-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(255, 255, 255, 0.3);
-            box-shadow: 
-                0 32px 80px rgba(0, 0, 0, 0.4),
-                0 16px 48px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.5),
-                inset 0 -1px 0 rgba(255, 255, 255, 0.2);
-        }
-
-        .card-header {
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .card-header h3 {
+        .box-title {
             color: rgba(255, 255, 255, 0.95);
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 600;
-            margin: 0 0 8px 0;
+            margin: 0 0 6px 0;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .box-company {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 16px;
+            font-weight: 500;
+            margin: 0;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .experience-box.active .box-title {
+            font-size: 24px;
+            margin-bottom: 8px;
             background: linear-gradient(135deg, #ffffff, #e0e0e0);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        .company {
-            display: block;
-            color: rgba(255, 255, 255, 0.8);
+        .experience-box.active .box-company {
             font-size: 18px;
-            font-weight: 500;
-            margin-bottom: 5px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 8px;
         }
 
-        .duration {
-            display: block;
+        .box-duration {
+            display: inline-block;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
             color: rgba(255, 255, 255, 0.6);
             font-size: 14px;
             font-weight: 400;
             background: rgba(255, 255, 255, 0.1);
-            padding: 4px 12px;
+            padding: 0 12px;
             border-radius: 20px;
-            display: inline-block;
             border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 0;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .card-content {
+        .experience-box.active .box-duration {
+            opacity: 1;
+            max-height: 50px;
+            padding: 4px 12px;
+            margin-bottom: 20px;
+        }
+
+        .box-content {
             color: rgba(255, 255, 255, 0.85);
             line-height: 1.6;
             text-align: left;
         }
 
-        .card-content ul {
+        .box-content ul {
             list-style: none;
             padding: 0;
             margin: 0;
         }
 
-        .card-content li {
+        .box-content li {
             position: relative;
             padding-left: 25px;
             margin-bottom: 12px;
@@ -299,7 +360,7 @@
             line-height: 1.6;
         }
 
-        .card-content li::before {
+        .box-content li::before {
             content: '▶';
             position: absolute;
             left: 0;
@@ -309,7 +370,7 @@
             line-height: 1.6;
         }
 
-        .card-content li:last-child {
+        .box-content li:last-child {
             margin-bottom: 0;
         }
 
@@ -348,6 +409,15 @@
                 display: flex;
             }
 
+            .experience-section {
+                margin-bottom: 60px;
+            }
+
+            .section-header {
+                font-size: 2em;
+                margin-bottom: 30px;
+            }
+
             .experience-timeline {
                 max-width: 100%;
                 padding: 18px 14px 32px 18px;
@@ -355,76 +425,110 @@
 
             .timeline-item {
                 padding-left: 34px;
-                margin-bottom: 42px;
+                margin-bottom: 24px;
             }
 
             .timeline-marker {
                 left: 6px;
-                top: 14px;
+                top: 10px;
                 width: 14px;
                 height: 14px;
             }
 
             .timeline-item::before {
                 left: 12px;
-                top: 26px;
+                top: 24px;
                 height: calc(100% + 16px);
             }
 
-            .experience-card {
-                padding: 24px 20px;
-                border-radius: 18px;
-                width: 100%;
+            .experience-box {
+                padding: 14px 18px;
             }
 
-            .card-header h3 {
+            .box-title {
+                font-size: 18px;
+            }
+
+            .box-company {
+                font-size: 14px;
+            }
+
+            .experience-box.active {
+                padding: 24px 20px;
+                border-radius: 18px;
+            }
+
+            .experience-box.active .box-title {
                 font-size: 20px;
             }
 
-            .company {
+            .experience-box.active .box-company {
                 font-size: 16px;
             }
 
-            .duration {
+            .experience-box.active .box-duration {
                 font-size: 12px;
                 padding: 4px 12px;
             }
 
-            .card-content li {
+            .box-content li {
                 font-size: 14px;
                 padding-left: 18px;
             }
         }
 
         @media (max-width: 480px) {
+            .experience-section {
+                margin-bottom: 50px;
+            }
+
+            .section-header {
+                font-size: 1.8em;
+                margin-bottom: 25px;
+            }
+
             .timeline-item {
                 padding-left: 30px;
+                margin-bottom: 20px;
             }
 
             .timeline-marker {
                 width: 12px;
                 height: 12px;
-                top: 10px;
+                top: 8px;
             }
 
             .timeline-item::before {
                 left: 5px;
-                top: 22px;
+                top: 20px;
             }
 
-            .experience-card {
+            .experience-box {
+                padding: 12px 16px;
+            }
+
+            .box-title {
+                font-size: 16px;
+            }
+
+            .box-company {
+                font-size: 13px;
+            }
+
+            .experience-box.active {
                 padding: 15px;
+                border-radius: 16px;
             }
 
-            .card-header h3 {
+            .experience-box.active .box-title {
                 font-size: 18px;
             }
 
-            .company {
+            .experience-box.active .box-company {
                 font-size: 14px;
             }
 
-            .card-content li {
+            .box-content li {
                 font-size: 13px;
                 padding-left: 18px;
             }
@@ -466,133 +570,152 @@
         <div class="content-container">
             <h2>Professional Experience</h2>
             
-            <div class="experience-timeline">
-                <!-- Undergraduate Research Assistant -->
-                <div class="timeline-item">
-                    <div class="timeline-marker"></div>
-                    <div class="experience-card glass-card">
-                        <div class="card-header">
-                            <h3>Undergraduate Research Assistant</h3>
-                            <span class="company">George Mason University</span>
-                            <span class="duration">Sept 2025 - Present</span>
+            <!-- Current/Present Experiences Section -->
+            <div class="experience-section">
+                <h3 class="section-header">Current/Present Experiences</h3>
+                <div class="experience-timeline">
+                    <!-- Undergraduate Research Assistant (Newest current) -->
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="experience-box" onclick="toggleExperience(this)">
+                            <div class="box-title">Undergraduate Research Assistant</div>
+                            <div class="box-company">George Mason University</div>
+                            <span class="box-duration">Sept 2025 - Present</span>
+                            <div class="box-content">
+                                <ul>
+                                    <li>Engineering autonomous ground vehicle software that leverages large language models for intelligent grid layout planning and flight data integration</li>
+                                    <li>Developing sensor fusion-based navigation and precision marking algorithms that maintain accuracy across challenging terrain conditions</li>
+                                    <li>Collaborating cross-functionally to prototype, test, and refine autonomous systems for scalable, reliable deployment during live drone events</li>
+                                </ul>
+                            </div>
                         </div>
-                        <div class="card-content">
-                            <ul>
-                                <li>Engineering autonomous ground vehicle software that leverages large language models for intelligent grid layout planning and flight data integration</li>
-                                <li>Developing sensor fusion-based navigation and precision marking algorithms that maintain accuracy across challenging terrain conditions</li>
-                                <li>Collaborating cross-functionally to prototype, test, and refine autonomous systems for scalable, reliable deployment during live drone events</li>
-                            </ul>
+                    </div>
+
+                    <!-- Co-Founder, Certly.AI (Oldest current) -->
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="experience-box" onclick="toggleExperience(this)">
+                            <div class="box-title">Co-Founder</div>
+                            <div class="box-company">Certly.AI</div>
+                            <span class="box-duration">Aug 2024 - Present</span>
+                            <div class="box-content">
+                                <ul>
+                                    <li>Developed an AI-powered backend with Python and AWS, integrating machine learning, NLP, and adaptive learning technologies for certification preparation</li>
+                                    <li>Applied data analytics to generate real-time insights from user telemetry, improving decision-making and performance tracking</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Co-Founder, Certly.AI (Current Role) -->
-                <div class="timeline-item">
-                    <div class="timeline-marker"></div>
-                    <div class="experience-card glass-card">
-                        <div class="card-header">
-                            <h3>Co-Founder</h3>
-                            <span class="company">Certly.AI</span>
-                            <span class="duration">Aug 2024 - Present</span>
+            <!-- Past Experiences Section -->
+            <div class="experience-section">
+                <h3 class="section-header">Past Experiences</h3>
+                <div class="experience-timeline">
+                    <!-- Software Development Intern (Newest past) -->
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="experience-box" onclick="toggleExperience(this)">
+                            <div class="box-title">Software Development Intern</div>
+                            <div class="box-company">South Asian Business Council of Virginia</div>
+                            <span class="box-duration">June 2025 - Aug 2025</span>
+                            <div class="box-content">
+                                <ul>
+                                    <li>Collaborated in a fast-paced team environment to design, develop, and deploy Android applications from concept to production release</li>
+                                    <li>Developed intuitive, user-friendly mobile interfaces using Kotlin, Python, and modern Android development tools and frameworks</li>
+                                    <li>Contributed to continuous improvement practices by iterating on app performance and user feedback</li>
+                                </ul>
+                            </div>
                         </div>
-                        <div class="card-content">
-                            <ul>
-                                <li>Developed an AI-powered backend with Python and AWS, integrating machine learning, NLP, and adaptive learning technologies for certification preparation</li>
-                                <li>Applied data analytics to generate real-time insights from user telemetry, improving decision-making and performance tracking</li>
-                            </ul>
+                    </div>
+
+                    <!-- Lead Cloud Engineer -->
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="experience-box" onclick="toggleExperience(this)">
+                            <div class="box-title">Lead Cloud Engineer</div>
+                            <div class="box-company">George Mason University HACKFAX</div>
+                            <span class="box-duration">Oct 2024 - April 2025</span>
+                            <div class="box-content">
+                                <ul>
+                                    <li>Automated deployment pipelines and data migration workflows tools using Microsoft Azure, integrated with IAM, NSGs, and telemetry pipelines for scalable cloud operations</li>
+                                    <li>Developed Infrastructure-as-Code (IaC) scripts and documented secure, multi-tier network topologies for repeatable use</li>
+                                    <li>Incorporated security architecture principles into network design, applying cryptographic methods and IAM security practices</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project Team Lead - Blaze Poker -->
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="experience-box" onclick="toggleExperience(this)">
+                            <div class="box-title">Project Team Lead</div>
+                            <div class="box-company">Blaze Poker, Ashburn, VA</div>
+                            <span class="box-duration">July 2024 - Sept 2024</span>
+                            <div class="box-content">
+                                <ul>
+                                    <li>Led a cross-functional team to develop a multiplayer web-based poker game, successfully integrating frontend (React, HTML, CSS, Javascript) and backend (Typescript, Python, SQL) technologies</li>
+                                    <li>Engineered an efficient game logic system that enhanced real-time gameplay responsiveness and improved server-client synchronizations, reducing latency by 30%</li>
+                                    <li>Streamlined project workflows, enhancing collaboration and reducing development bottlenecks</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Lead Network Engineer -->
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="experience-box" onclick="toggleExperience(this)">
+                            <div class="box-title">Lead Network Engineer</div>
+                            <div class="box-company">George Mason University HACKFAX</div>
+                            <span class="box-duration">Nov 2023 - March 2024</span>
+                            <div class="box-content">
+                                <ul>
+                                    <li>Engineered and deployed network environments using Cisco Packet Tracer and IOS CLI, including network probes and endpoint configurations similar to Cisco ThousandEyes</li>
+                                    <li>Performed penetration testing and simulated attacks to validate incident response workflows, integrating results into cybersecurity playbooks</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Team Lead - CyberPatriot (Oldest) -->
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="experience-box" onclick="toggleExperience(this)">
+                            <div class="box-title">Team Lead</div>
+                            <div class="box-company">CyberPatriot</div>
+                            <span class="box-duration">Jan 2023 - March 2024</span>
+                            <div class="box-content">
+                                <ul>
+                                    <li>Achieved 2x Platinum-Tier Semi-Finalist, placing in the top tier among thousands of global participants</li>
+                                    <li>Secured and hardened Windows Server and Linux systems, implementing comprehensive security measures</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Software Development Intern -->
-                <div class="timeline-item">
-                    <div class="timeline-marker"></div>
-                    <div class="experience-card glass-card">
-                        <div class="card-header">
-                            <h3>Software Development Intern</h3>
-                            <span class="company">South Asian Business Council of Virginia</span>
-                            <span class="duration">June 2025 - Aug 2025</span>
-                        </div>
-                        <div class="card-content">
-                            <ul>
-                                <li>Collaborated in a fast-paced team environment to design, develop, and deploy Android applications from concept to production release</li>
-                                <li>Developed intuitive, user-friendly mobile interfaces using Kotlin, Python, and modern Android development tools and frameworks</li>
-                                <li>Contributed to continuous improvement practices by iterating on app performance and user feedback</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Lead Cloud Engineer -->
-                <div class="timeline-item">
-                    <div class="timeline-marker"></div>
-                    <div class="experience-card glass-card">
-                        <div class="card-header">
-                            <h3>Lead Cloud Engineer</h3>
-                            <span class="company">George Mason University HACKFAX</span>
-                            <span class="duration">Oct 2024 - April 2025</span>
-                        </div>
-                        <div class="card-content">
-                            <ul>
-                                <li>Automated deployment pipelines and data migration workflows tools using Microsoft Azure, integrated with IAM, NSGs, and telemetry pipelines for scalable cloud operations</li>
-                                <li>Developed Infrastructure-as-Code (IaC) scripts and documented secure, multi-tier network topologies for repeatable use</li>
-                                <li>Incorporated security architecture principles into network design, applying cryptographic methods and IAM security practices</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Project Team Lead - Blaze Poker -->
-                <div class="timeline-item">
-                    <div class="timeline-marker"></div>
-                    <div class="experience-card glass-card">
-                        <div class="card-header">
-                            <h3>Project Team Lead</h3>
-                            <span class="company">Blaze Poker, Ashburn, VA</span>
-                            <span class="duration">July 2024 - Sept 2024</span>
-                        </div>
-                        <div class="card-content">
-                            <ul>
-                                <li>Led a cross-functional team to develop a multiplayer web-based poker game, successfully integrating frontend (React, HTML, CSS, Javascript) and backend (Typescript, Python, SQL) technologies</li>
-                                <li>Engineered an efficient game logic system that enhanced real-time gameplay responsiveness and improved server-client synchronizations, reducing latency by 30%</li>
-                                <li>Streamlined project workflows, enhancing collaboration and reducing development bottlenecks</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Lead Network Engineer -->
-                <div class="timeline-item">
-                    <div class="timeline-marker"></div>
-                    <div class="experience-card glass-card">
-                        <div class="card-header">
-                            <h3>Lead Network Engineer</h3>
-                            <span class="company">George Mason University HACKFAX</span>
-                            <span class="duration">Nov 2023 - March 2024</span>
-                        </div>
-                        <div class="card-content">
-                            <ul>
-                                <li>Engineered and deployed network environments using Cisco Packet Tracer and IOS CLI, including network probes and endpoint configurations similar to Cisco ThousandEyes</li>
-                                <li>Performed penetration testing and simulated attacks to validate incident response workflows, integrating results into cybersecurity playbooks</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Team Lead - CyberPatriot (Oldest) -->
-                <div class="timeline-item">
-                    <div class="timeline-marker"></div>
-                    <div class="experience-card glass-card">
-                        <div class="card-header">
-                            <h3>Team Lead</h3>
-                            <span class="company">CyberPatriot</span>
-                            <span class="duration">Jan 2023 - March 2024</span>
-                        </div>
-                        <div class="card-content">
-                            <ul>
-                                <li>Achieved 2x Platinum-Tier Semi-Finalist, placing in the top tier among thousands of global participants</li>
-                                <li>Secured and hardened Windows Server and Linux systems, implementing comprehensive security measures</li>
-                            </ul>
+            <!-- Job Simulations Section -->
+            <div class="experience-section">
+                <h3 class="section-header">Job Simulations</h3>
+                <div class="experience-timeline">
+                    <!-- Deloitte Australia Cyber Job Simulation -->
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="experience-box" onclick="toggleExperience(this)">
+                            <div class="box-title">Deloitte Australia Cyber Job Simulation</div>
+                            <div class="box-company">Forage</div>
+                            <span class="box-duration">November 2025</span>
+                            <div class="box-content">
+                                <ul>
+                                    <li>Completed a job simulation involving reading web activity logs</li>
+                                    <li>Supported a client in a cyber security breach</li>
+                                    <li>Answered questions to identify suspicious user activity</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -625,6 +748,32 @@
 
         function goBack() {
             window.location.href = "index.html"; // Always navigate to the home page
+        }
+
+        // Experience expand/collapse functionality
+        let currentlyExpanded = null;
+
+        function toggleExperience(boxElement) {
+            // If clicking the same box, collapse it
+            if (currentlyExpanded === boxElement) {
+                boxElement.classList.remove('active');
+                currentlyExpanded = null;
+                return;
+            }
+            
+            // Collapse any previously expanded box
+            if (currentlyExpanded) {
+                currentlyExpanded.classList.remove('active');
+            }
+            
+            // Expand the clicked box
+            boxElement.classList.add('active');
+            currentlyExpanded = boxElement;
+            
+            // Smooth scroll to the expanded box
+            setTimeout(() => {
+                boxElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 100);
         }
     </script>
 </body>
